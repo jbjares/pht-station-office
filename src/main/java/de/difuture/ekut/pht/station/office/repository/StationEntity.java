@@ -26,6 +26,8 @@ public class StationEntity {
 
     private URI stationURI;
 
+    private String stationName;
+
     private Instant lastPing;
 
     public StationEntity(
@@ -34,10 +36,11 @@ public class StationEntity {
 
         this.stationURI = station.getStationURI();
         this.lastPing = lastPing;
+        this.stationName = station.getStationName();
     }
 
     public Station toStation() {
 
-        return new Station(this.stationID, this.stationURI);
+        return new Station(this.stationID, this.stationName, this.stationURI);
     }
 }
