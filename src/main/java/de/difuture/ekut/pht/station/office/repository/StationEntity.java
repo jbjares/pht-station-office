@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.net.URI;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -25,9 +26,14 @@ public class StationEntity {
 
     private URI stationURI;
 
-    public StationEntity(final Station station) {
+    private Instant lastPing;
+
+    public StationEntity(
+            final Station station,
+            final Instant lastPing) {
 
         this.stationURI = station.getStationURI();
+        this.lastPing = lastPing;
     }
 
     public Station toStation() {
