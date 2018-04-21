@@ -27,7 +27,7 @@ public class StationEntity {
 
     public StationEntity(final Station station) {
 
-        this.stationID = station.getStationID();
+        this.stationURI = station.getStationURI();
     }
 
     public Station toStation() {
