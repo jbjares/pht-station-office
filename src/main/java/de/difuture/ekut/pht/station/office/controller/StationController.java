@@ -1,10 +1,8 @@
 package de.difuture.ekut.pht.station.office.controller;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import de.difuture.ekut.pht.lib.core.model.Station;
 import de.difuture.ekut.pht.station.office.repository.StationEntity;
@@ -35,16 +33,23 @@ public class StationController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public Station ping(@RequestBody @Valid Station station) {
+	public Iterable<Station> ping(@RequestBody @Valid Station station) {
 
 	    final Instant lastPing = Instant.now();
-	    return this.stationRepository
-                .findByStationURI(station.getStationURI())
-                .map(x -> {
-                    x.setLastPing(lastPing);
-                    return this.stationRepository.save(x).toStation();
-                })
-                .orElse(this.stationRepository.save(new StationEntity(station, lastPing)).toStation());
+	    final List<StationEntity> entities = this.stationRepository
+                .findAllByStationURI(station.getStationURI());
+
+	    if (entities.isEmpty()) {
+
+	        return Collections.singleton(this.stationRepository.save(new StationEntity(station, lastPing)).toStation());
+
+        } else {
+
+	        return entities.stream().map(x -> {
+	            x.setLastPing(lastPing);
+	            return this.stationRepository.save(x).toStation();
+            }).collect(Collectors.toList());
+        }
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
