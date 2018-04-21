@@ -16,6 +16,7 @@ import lombok.NonNull;
 import javax.validation.Valid;
 
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/station")
 public class StationController {
