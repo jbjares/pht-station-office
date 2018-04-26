@@ -3,17 +3,18 @@ package de.difuture.ekut.pht.station.office.controller;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-import de.difuture.ekut.pht.lib.core.model.Station;
-import de.difuture.ekut.pht.station.office.repository.StationEntity;
+import de.difuture.ekut.pht.lib.core.api.Station;
+import de.difuture.ekut.pht.lib.core.neo4j.entity.StationEntity;
 import de.difuture.ekut.pht.station.office.repository.StationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.NonNull;
-
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 
 @CrossOrigin
@@ -28,7 +29,7 @@ public class StationController {
 
 	@Autowired
 	public StationController(
-			@NonNull final StationRepository stationRepository) {
+			@NotNull final StationRepository stationRepository) {
 
 		this.stationRepository = stationRepository;
 	}
@@ -54,15 +55,15 @@ public class StationController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public Iterable<Station> doGetAll() {
+	public Iterable<Station> getAll() {
 
-	    List<Station> result = new ArrayList<>();
-		this.stationRepository.findAll().forEach(x -> result.add(x.toStation()));
-        return result;
+		return StreamSupport.stream(this.stationRepository.findAll().spliterator(), false)
+                .map(StationEntity::toStation)
+                .collect(Collectors.toList());
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Station> doGetOne(
+	public ResponseEntity<Station> getOne(
 			@PathVariable("id") UUID trainID) {
 
 		return this.stationRepository
