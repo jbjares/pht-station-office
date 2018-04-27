@@ -8,7 +8,7 @@ spring:
 #    config:
 #      discovery:
 #        enabled: true
-#        service-id: config-server
+#        service-trainDestinationID: config-server
 #      fail-fast: false
 #      retry:
 #        initial-interval: 2000
@@ -34,7 +34,7 @@ spring:
 #    config:
 #      discovery:
 #        enabled: true
-#        service-id: config-server
+#        service-trainDestinationID: config-server
 #      fail-fast: false
 #      retry:
 #        initial-interval: 2000
