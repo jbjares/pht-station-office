@@ -1,5 +1,5 @@
 server:
-  port: 6006
+  port: 8763
 
 spring:
   application:
@@ -42,7 +42,7 @@ spring:
 #        multiplier: 2
 #        max-attempts: 10
 server:
-    port: 6006
+    port: 8763
 
 eureka:
   instance:
